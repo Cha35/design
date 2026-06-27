@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>폴리볼 디자인 가이드 v1.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1F30E9;
+    --navy: #00143F;
+    --mint: #09FFEE;
+    --white: #ffffff;
+    --bg-01: #ffffff;
+    --bg-02: #f9f9f9;
+    --text-03: #101015;
+    --text-04: #454545;
+    --text-05: #888888;
+    --line-03: #e5e5e5;
+    --sidebar-w: 240px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: var(--text-03);
+    background: var(--bg-02);
+    line-height: 1.6;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--navy);
+    height: 52px;
+    display: flex; align-items: center; padding: 0 24px;
+    gap: 12px;
+  }
+  .topbar-logo {
+    font-size: 18px; font-weight: 700; color: var(--white);
+    letter-spacing: -0.03em;
+  }
+  .topbar-logo span { color: var(--mint); }
+  .topbar-badge {
+    background: var(--blue); color: #fff;
+    font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 4px; font-family: 'DM Mono', monospace;
+  }
+  .topbar-sub {
+    color: rgba(255,255,255,0.4); font-size: 12px; margin-left: auto;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed; top: 52px; left: 0; bottom: 0;
+    width: var(--sidebar-w);
+    background: var(--white);
+    border-right: 1px solid var(--line-03);
+    overflow-y: auto;
+    z-index: 90;
+  }
+  .sidebar-section {
+    padding: 16px 0 8px;
+    border-bottom: 1px solid var(--bg-02);
+  }
+  .sidebar-label {
+    font-size: 10px; font-weight: 700; color: var(--text-05);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0 16px 8px;
+  }
+  .sidebar a {
+    display: block; padding: 7px 16px;
+    font-size: 13px; color: var(--text-04);
+    text-decoration: none; transition: background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar a:hover { background: var(--bg-02); color: var(--text-03); }
+  .sidebar a.active {
+    border-left-color: var(--blue); color: var(--blue);
+    background: #f0f2ff; font-weight: 600;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    margin-top: 52px;
+    padding: 40px 48px 80px;
+    max-width: 960px;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--blue);
+  }
+  .page-header h1 {
+    font-size: 28px; font-weight: 700; color: var(--navy);
+    letter-spacing: -0.03em; margin-bottom: 8px;
+  }
+  .page-header .meta {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+  .meta-badge {
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+    border-radius: 4px; font-family: 'DM Mono', monospace;
+  }
+  .meta-badge.blue { background: var(--blue); color: #fff; }
+  .meta-badge.navy { background: var(--navy); color: #fff; }
+  .meta-badge.mint { background: var(--mint); color: var(--navy); }
+  .meta-note { font-size: 12px; color: var(--text-05); }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 56px;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--line-03);
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--blue);
+    padding: 14px 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    background: rgba(255,255,255,0.2); color: #fff;
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .section-title {
+    font-size: 16px; font-weight: 700; color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .section-body { padding: 24px; }
+
+  /* ── SUBSECTION ── */
+  .sub { margin-bottom: 24px; }
+  .sub:last-child { margin-bottom: 0; }
+  .sub-title {
+    font-size: 13px; font-weight: 700; color: var(--navy);
+    margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--line-03);
+  }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin: 8px 0;
+  }
+  th {
+    background: var(--bg-02); color: var(--text-04);
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; padding: 8px 12px; text-align: left;
+    border-bottom: 1px solid var(--line-03);
+  }
+  td {
+    padding: 9px 12px; border-bottom: 1px solid var(--bg-02);
+    color: var(--text-03); vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbff; }
+
+  /* ── CODE ── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; background: var(--bg-02);
+    color: var(--blue); padding: 1px 6px;
+    border-radius: 4px; border: 1px solid var(--line-03);
+  }
+  pre {
+    background: var(--navy); border-radius: 8px;
+    padding: 16px 20px; overflow-x: auto; margin: 8px 0;
+  }
+  pre code {
+    background: none; border: none; color: var(--mint);
+    font-size: 12px; padding: 0;
+  }
+
+  /* ── LIST ── */
+  ul, ol { padding-left: 20px; }
+  li { margin-bottom: 4px; font-size: 13px; color: var(--text-04); }
+  li strong { color: var(--text-03); }
+
+  /* ── NOTICE BOX ── */
+  .notice {
+    background: #f0f2ff; border-left: 3px solid var(--blue);
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    margin: 8px 0; font-size: 13px; color: var(--text-04);
+  }
+  .notice strong { color: var(--blue); }
+
+  /* ── COLOR SWATCH ── */
+  .swatch-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px; margin: 12px 0;
+  }
+  .swatch {
+    border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--line-03);
+  }
+  .swatch-color { height: 64px; }
+  .swatch-info { padding: 8px 10px; background: var(--white); }
+  .swatch-name { font-size: 12px; font-weight: 700; color: var(--text-03); }
+  .swatch-hex {
+    font-size: 11px; font-family: 'DM Mono', monospace;
+    color: var(--text-05); margin-top: 2px;
+  }
+
+  /* ── COLOR SEMANTIC TABLE ── */
+  .color-dot {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; vertical-align: middle;
+    margin-right: 6px; border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* ── TYPOGRAPHY PREVIEW ── */
+  .type-preview {
+    background: var(--bg-02); border-radius: 8px;
+    padding: 16px 20px; margin: 8px 0;
+  }
+  .type-row {
+    display: flex; align-items: baseline; gap: 16px;
+    padding: 8px 0; border-bottom: 1px solid var(--line-03);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-label {
+    min-width: 120px; font-size: 11px; font-family: 'DM Mono', monospace;
+    color: var(--text-05); flex-shrink: 0;
+  }
+  .type-sample { color: var(--text-03); }
+
+  /* ── SCREEN PATTERNS ── */
+  .screen-card {
+    background: var(--bg-02); border-radius: 10px;
+    padding: 16px; margin-bottom: 16px;
+    border: 1px solid var(--line-03);
+  }
+  .screen-card h4 {
+    font-size: 13px; font-weight: 700; color: var(--blue);
+    margin-bottom: 10px;
+  }
+  .screen-card ul { padding-left: 16px; }
+  .screen-card li { font-size: 12px; color: var(--text-04); margin-bottom: 3px; }
+
+  /* ── RADIUS DEMO ── */
+  .radius-grid {
+    display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0;
+  }
+  .radius-box {
+    background: var(--bg-02); border: 2px solid var(--blue);
+    width: 64px; height: 64px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 11px; font-family: 'DM Mono', monospace;
+    color: var(--blue); font-weight: 600;
+  }
+
+  /* ── SPACING DEMO ── */
+  .spacing-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 8px;
+  }
+  .spacing-bar {
+    background: var(--blue); height: 12px; border-radius: 2px; opacity: 0.7;
+  }
+  .spacing-token {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-05);
+    min-width: 100px;
+  }
+
+  /* ── WARNING SECTION ── */
+  .warning-section {
+    background: #fff8f0; border: 1px solid #ffd6a5;
+    border-radius: 12px; padding: 20px 24px;
+    margin-bottom: 56px;
+  }
+  .warning-section h3 {
+    color: #d47000; font-size: 14px; font-weight: 700; margin-bottom: 12px;
+  }
+  .warning-section li { color: var(--text-04); font-size: 13px; }
+
+  /* ── SCREEN PATTERNS HEADER ── */
+  .screen-section-header {
+    background: var(--navy);
+  }
+
+  /* ── SCROLLBAR ── */
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--line-03); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    :root { --sidebar-w: 0px; }
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">Poly<span>Ball</span>.</div>
+  <div class="topbar-badge">Design Guide v1.0</div>
+  <div class="topbar-sub">기획자용 Design Brief 작성 기준 문서 · 피그마 기반</div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">컴포넌트</div>
+    <a href="#s1">01. Icon</a>
+    <a href="#s2">02. Badge</a>
+    <a href="#s3">03. Bread Crumbs</a>
+    <a href="#s4">04. Chip</a>
+    <a href="#s5">05. Date Picker</a>
+    <a href="#s6">06. Divide-Line</a>
+    <a href="#s7">07. Dropdown</a>
+    <a href="#s8">08. Empty_case</a>
+    <a href="#s9">09. Error_case</a>
+    <a href="#s10">10. Title_img_sub</a>
+    <a href="#s11">11. Loading</a>
+    <a href="#s12">12. Navigation</a>
+    <a href="#s13">13. Notice / Footer</a>
+    <a href="#s14">14. Selection Controls</a>
+    <a href="#s15">15. Pagination</a>
+    <a href="#s16">16. Sheets</a>
+    <a href="#s17">17. Stepper</a>
+    <a href="#s18">18. Tab</a>
+    <a href="#s19">19. Text Field</a>
+    <a href="#s20">20. Toast</a>
+    <a href="#s21">21. Tooltip</a>
+    <a href="#s22">22. Share</a>
+    <a href="#s23">23. Annotate</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">파운데이션</div>
+    <a href="#s24">24. Grid</a>
+    <a href="#s25">25. Spacing</a>
+    <a href="#s26">26. Radius</a>
+    <a href="#s27">27. Color Palette</a>
+    <a href="#s28">28. Color Semantic</a>
+    <a href="#s29">29. Typography</a>
+    <a href="#s30">30. Icon Grids</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">브랜드</div>
+    <a href="#s31">브랜드 컬러</a>
+    <a href="#s32">브랜드 로고</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">실제 화면 패턴</div>
+    <a href="#sp">Screen Patterns</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>폴리볼 디자인 가이드 초안</h1>
+    <div class="meta">
+      <span class="meta-badge blue">v1.0</span>
+      <span class="meta-badge navy">기획자용</span>
+      <span class="meta-badge mint">Design Brief 기준</span>
+      <span class="meta-note">피그마 디자인 가이드 이미지 분석 기반 · 계속 업데이트 예정</span>
+    </div>
+  </div>
+
+  <!-- ── 01. ICON ── -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Icon</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">기본 규칙</div>
+        <ul>
+          <li>기준 사이즈: <strong>24×24dp</strong></li>
+          <li>권장 사이즈: 16×16dp / 24×24dp / 32×32dp</li>
+          <li>스트로크 두께: 24dp 기준 <strong>2dp 고정</strong></li>
+          <li>Scale 조정 시 24×24dp 기준으로 조정</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">네이밍 규칙</div>
+        <pre><code>Type=ico, Name=[아이콘명], [속성]=[값]
+예) Type=ico, Name=chevron, Direction=up
+예) Type=ico, Name=check, Status=on</code></pre>
+      </div>
+      <div class="sub">
+        <div class="sub-title">아이콘 카탈로그</div>
+        <table>
+          <thead><tr><th>그룹</th><th>아이콘명</th><th>변형</th></tr></thead>
+          <tbody>
+            <tr><td>방향</td><td><code>chevron</code></td><td>Direction: up / down / left / right</td></tr>
+            <tr><td>방향</td><td><code>arrow</code></td><td>Direction: up / down / left / right / insert / exchange / maximise / minimise / move</td></tr>
+            <tr><td>선택</td><td><code>check</code></td><td>Status: on / off / white</td></tr>
+            <tr><td>선택</td><td><code>check-circle</code></td><td>Status: on / off / disabled</td></tr>
+            <tr><td>선택</td><td><code>radio</code></td><td>Status: on / off / disabled</td></tr>
+            <tr><td>액션</td><td><code>plus</code>, <code>minus</code>, <code>close</code></td><td>—</td></tr>
+            <tr><td>액션</td><td><code>plus-circle</code>, <code>close-circle</code></td><td>Status: default / fill</td></tr>
+            <tr><td>상태</td><td><code>exclamation-circle</code>, <code>info-circle</code>, <code>question-circle</code></td><td>Status: default / fill</td></tr>
+            <tr><td>메뉴</td><td><code>hamburger</code>, <code>meatball</code>, <code>kebab</code>, <code>bento</code></td><td>—</td></tr>
+            <tr><td>검색</td><td><code>search</code></td><td>Direction: normal / ai / list</td></tr>
+            <tr><td>도구</td><td><code>filter</code>, <code>sort-vertical</code>, <code>handle</code>, <code>setting</code>, <code>keypad</code>, <code>outlink</code></td><td>—</td></tr>
+            <tr><td>인터랙션</td><td><code>bookmark</code>, <code>heart</code>, <code>star</code></td><td>Status: on / off</td></tr>
+            <tr><td>인터랙션</td><td><code>show</code></td><td>Show: on / off</td></tr>
+            <tr><td>인터랙션</td><td><code>thumb</code></td><td>Direction: up / down, Status: on / off</td></tr>
+            <tr><td>알림</td><td><code>bell-normal</code></td><td>Status: default / fill / on</td></tr>
+            <tr><td>알림</td><td><code>bell-delete</code></td><td>Status: default / fill</td></tr>
+            <tr><td>네비</td><td><code>home</code></td><td>Status: on / off</td></tr>
+            <tr><td>위치</td><td><code>pin</code></td><td>Status: default / fill</td></tr>
+            <tr><td>위치</td><td><code>marker</code>, <code>map-location</code></td><td>—</td></tr>
+            <tr><td>데이터</td><td><code>graph</code></td><td>Direction: bar / line</td></tr>
+            <tr><td>데이터</td><td><code>variance</code></td><td>Direction: increase / decrease / maintain / new / hot</td></tr>
+            <tr><td>커뮤니티</td><td><code>chat</code>, <code>chat_add</code>, <code>comment</code></td><td>Status: default / fill</td></tr>
+            <tr><td>커뮤니티</td><td><code>edit</code>, <code>email</code>, <code>hashtag</code></td><td>Status: default / fill</td></tr>
+            <tr><td>시간</td><td><code>time</code>, <code>time-attack</code></td><td>Status: default / fill</td></tr>
+            <tr><td>시간</td><td><code>history</code>, <code>refresh</code>, <code>refresh-time</code></td><td>—</td></tr>
+            <tr><td>일정</td><td><code>calendar</code></td><td>Status: default / fill</td></tr>
+            <tr><td>보상</td><td><code>coupon</code>, <code>lightning</code>, <code>trophy</code>, <code>gift</code></td><td>Status: default / fill</td></tr>
+            <tr><td>커머스</td><td><code>shoppingbag</code>, <code>store</code>, <code>discount-circle</code>, <code>receipt</code>, <code>memo</code>, <code>tag</code></td><td>—</td></tr>
+            <tr><td>커머스</td><td><code>call</code>, <code>vote</code></td><td>Status: default / fill</td></tr>
+            <tr><td>보안</td><td><code>certified</code></td><td>Status: default / fill</td></tr>
+            <tr><td>보안</td><td><code>lock</code>, <code>block</code></td><td>—</td></tr>
+            <tr><td>파일</td><td><code>camera</code>, <code>image</code>, <code>video</code></td><td>Status: default / fill</td></tr>
+            <tr><td>파일</td><td><code>copy</code>, <code>trash</code>, <code>download</code>, <code>upload</code>, <code>paperclip</code>, <code>share</code>, <code>dm</code></td><td>Status: default / fill</td></tr>
+            <tr><td>기타</td><td><code>diamond</code>, <code>rocket</code>, <code>compass</code>, <code>flag</code>, <code>ai</code>, <code>eyes</code></td><td>—</td></tr>
+            <tr><td>기타</td><td><code>seat</code></td><td>Type: seat_two / seat_three</td></tr>
+            <tr><td>기타</td><td><code>money</code>, <code>wallet</code>, <code>support</code></td><td>—</td></tr>
+            <tr><td>기타</td><td><code>siren</code>, <code>log-out</code>, <code>kakao</code></td><td>—</td></tr>
+            <tr><td>기타</td><td><code>my-shopping</code></td><td>Status: default / fill</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">아이콘 컬러 변형</div>
+        <ul>
+          <li>기본 (검정)</li>
+          <li>방향 증가 (빨강 계열)</li>
+          <li>방향 감소 (파랑 계열)</li>
+          <li>유지 / 신규 / 핫</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02. BADGE ── -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Badge</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">사용자에게 정보를 강조하거나 특정 요소에 주의를 끌기 위해 아이콘 또는 텍스트에 추가하는 요소</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>설명</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>Badge-basic</code></td><td>숫자 표시 (1자리 / 10자리)</td><td>장바구니 개수, 알림 개수</td></tr>
+            <tr><td><code>Badge-dot</code></td><td>점(dot)으로 알림 표시</td><td>새 정보 포함 알림</td></tr>
+            <tr><td><code>Customized badge</code></td><td>커스텀 텍스트</td><td>특수 케이스</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Badge-basic 규칙</div>
+        <ul>
+          <li>색상: <strong>CTA / Primary 컬러</strong> 사용</li>
+          <li>1자리 / 10자리(99+) 구성</li>
+          <li><strong>0개는 미노출</strong> 처리</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Badge-dot 규칙</div>
+        <ul>
+          <li>해당 영역에 새 정보가 포함될 때 사용</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03. BREAD CRUMBS ── -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Bread Crumbs</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">현재 위치의 맥락을 보여주는 내비게이션 요소</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">규칙</div>
+        <ul>
+          <li>홈부터 상위 카테고리(2depth) → 하위 카테고리(3depth) → 현 위치 순서</li>
+          <li>클릭 시 해당 페이지로 이동 가능 (서비스 내 이탈률 감소 목적)</li>
+          <li><strong>현 위치는 볼드</strong> 처리</li>
+          <li>최대 4depth까지 표현 | 구분자: <code>&gt;</code> (꺽쇠)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04. CHIP ── -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Chip</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">정보, 선택, 콘텐츠 필터링, 특정 액션 유도 컴포넌트. 리스트 필터링 기능에 한정하며, 기능에 따라 사용처 한정</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td><code>Chips-basic</code></td><td>최소 2가지 옵션, 기본 필터링 목적</td></tr>
+            <tr><td><code>Chips-option</code></td><td>다수 선택지, 선택 시 나열 표시</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">상태</div>
+        <ul>
+          <li>Default (미선택): 아웃라인 스타일</li>
+          <li>Select (선택됨): 검정 배경 + 흰 텍스트</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Scroll 처리</div>
+        <ul>
+          <li>칩이 디바이스 너비 초과 시 가로 스와이프 적용</li>
+          <li>좌측 아이콘 Fixed, 나머지 스크롤</li>
+          <li>Fixed 아이콘 뒤 배경: <code>linear-gradient(90deg, #FFF 80.15%, rgba(255,255,255,0.00) 100%)</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05. DATE PICKER ── -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Date Picker</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">규칙</div>
+        <ul>
+          <li>시작 시점 + 종료 시점 선택 가능 (월 기준 / 일 기준 모두 가능)</li>
+          <li>종료 시점은 <strong>현재 기준으로 적용</strong>, 사용자 직접 수정 가능</li>
+          <li>종료 시점은 현재보다 미래 설정 불가</li>
+          <li>전체 시점 미선택 시 버튼 비활성화 → 모두 선택 후 버튼 활성화</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">컴포넌트</div>
+        <ul>
+          <li>드럼롤(스크롤) 방식: 일 선택용</li>
+          <li>드럼롤 방식: 월 선택용 (검정 배경 선택 상태)</li>
+          <li>달력 방식: 날짜 전체 보기 (선택일 파란 원 표시, 일요일 빨강, 토요일 파랑)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 06. DIVIDE-LINE ── -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Divide-Line (구분선)</span>
+    </div>
+    <div class="section-body">
+      <div class="notice"><strong>디자인 시 구분선 사용 지양</strong> → 간격 조절(padding)로 영역 구분 우선. 영역 구분이 애매할 때만 사용</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">굵기 타입</div>
+        <ul>
+          <li>얇은 선: 같은 레벨 콘텐츠 구분</li>
+          <li>굵은 선: 다른 섹션/영역 구분</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 07. DROPDOWN ── -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Dropdown</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td><code>Dropdown</code></td><td>필터링하는 드롭다운</td></tr>
+            <tr><td><code>Dropdown-Layer</code></td><td>동작으로 트리거되는 옵션 목록 표시</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Dropdown 상태</div>
+        <ul>
+          <li>기본 (닫힘): 텍스트 + <code>chevron-down</code></li>
+          <li>열림: 텍스트 + <code>chevron-up</code> + 옵션 리스트</li>
+          <li>선택됨: 선택된 옵션 텍스트 표시</li>
+          <li>오류: 빨간 테두리</li>
+          <li>비활성화: 회색 처리</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">공통 규칙</div>
+        <ul>
+          <li>너무 긴 드롭다운 메뉴 지양</li>
+          <li>Dropdown-Layer: 페이지 선택 옵션 Default MAX 168 고정, 영역 내 스크롤 진행</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 08. EMPTY CASE ── -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Empty_case (빈 상태)</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">구성 요소</div>
+        <ul>
+          <li>아이콘 (느낌표 또는 원형 아이콘)</li>
+          <li>강조 타이틀 / 서브 타이틀 / CTA 버튼 (선택)</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">스타일 타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>특징</th></tr></thead>
+          <tbody>
+            <tr><td>타입 A</td><td>느낌표(!) 아이콘 + 타이틀 + 서브 + 버튼</td></tr>
+            <tr><td>타입 B</td><td>원형 아이콘 + 타이틀 + 서브 + 버튼</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">CTA 버튼</div>
+        <ul>
+          <li>색상: Primary (파란색)</li>
+          <li>라벨: "확인" 또는 상황에 맞는 액션</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 09. ERROR CASE ── -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Error_case (에러 상태)</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">에러 타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>문구</th><th>CTA</th></tr></thead>
+          <tbody>
+            <tr><td>통신 오류 (GNB 없음)</td><td>"화면을 불러오지 못했어요 / 네트워크 연결 상태를 확인한 후 다시 시도해 주세요."</td><td>없음</td></tr>
+            <tr><td>불러오기 실패 (단순)</td><td>"일시적으로 화면을 불러오는데 어려움이 있어요 / 잠시 후 다시 시도해 주세요."</td><td>없음</td></tr>
+            <tr><td>불러오기 실패 + 재시도</td><td>동일</td><td>다시 시도</td></tr>
+            <tr><td>불러오기 실패 + 복합 CTA</td><td>동일</td><td>메인으로 이동 + 다시 시도</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">GNB 표시 규칙</div>
+        <ul>
+          <li>GNB 경우 화면에 따라 노출 유무 결정</li>
+          <li>빈 화면의 앱 바는 에러에서도 노출</li>
+          <li>스토어 예외: 전체 템플릿하기 때문에 GNB 없이 노출</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10. TITLE_IMG_SUB ── -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Title_img_sub_case</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">규칙</div>
+        <ul>
+          <li>Navigation과 타이틀 사이 간격: <strong>80px 고정</strong></li>
+          <li>타이틀이 길 경우 <strong>2줄로 진행</strong></li>
+          <li>이미지 비율: <strong>7:3 비율</strong> 내에서 활용</li>
+          <li>광고는 on/off 가능</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">레이아웃 구성 순서</div>
+        <ol>
+          <li>Navigation (헤더)</li>
+          <li>타이틀 (최대 2줄)</li>
+          <li>이미지 영역 (7:3 비율)</li>
+          <li>서브 텍스트 (선택)</li>
+          <li>광고 배너 (선택, on/off)</li>
+          <li>CTA 버튼 ("확인")</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 11. LOADING ── -->
+  <div class="section" id="s11">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <span class="section-title">Loading</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">규칙</div>
+        <ul>
+          <li>즉시 수행할 수 없는 짧은 시간이 필요한 작업에 사용</li>
+          <li>화면에 한 번에 <strong>하나의 로딩만</strong> 존재해야 함</li>
+          <li>첫 화면 로드나 새로 고침이 아닌 한 번에 두 이상의 항목 로딩 지양</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>설명</th><th>사이즈</th></tr></thead>
+          <tbody>
+            <tr><td>로딩 스피너</td><td>일반 로딩 상태</td><td>56×56</td></tr>
+            <tr><td>풀 화면 로딩</td><td>전체 화면 로딩</td><td>풀스크린</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">풀 화면 로딩 타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>화면</th></tr></thead>
+          <tbody>
+            <tr><td>브랜드 로딩</td><td>폴리볼 로고 (어두운 배경)</td></tr>
+            <tr><td>광고 로딩</td><td>"광고가 끝나면 보상 혜택이 적용돼요 / 광고를 불러오고 있어요." + dot 인디케이터</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 12. NAVIGATION ── -->
+  <div class="section" id="s12">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <span class="section-title">Navigation</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">사용자가 필요한 것을 찾도록 도와주며 현재 위치를 알려주는 컴포넌트. 2가지 타입: Navigation-bottom / GNB 헤더</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">GNB-header</div>
+        <table>
+          <thead><tr><th>타입</th><th>구성</th></tr></thead>
+          <tbody>
+            <tr><td>메인 헤더 (라이트)</td><td>PolyBall 로고 + 알림 배지 + 알림 아이콘</td></tr>
+            <tr><td>메인 헤더 (다크)</td><td>PolyBall 로고 + 알림 아이콘 + 설정 아이콘</td></tr>
+            <tr><td>서브 헤더 (기본)</td><td>← 뒤로가기 + 페이지 타이틀</td></tr>
+            <tr><td>서브 헤더 (우측 액션)</td><td>← 뒤로가기 + 페이지 타이틀 + 우측 텍스트 링크</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Navigation-bottom</div>
+        <ul>
+          <li>최대 <strong>5개 아이콘</strong>으로 구성, 화면 최하단 고정</li>
+          <li>폴리볼 현재 탭 구성: <strong>승부예측 / 응모 / 마이</strong> (3탭)</li>
+          <li>선택된 탭: 아이콘 채움(fill) + 텍스트 볼드 + 하단 인디케이터 바</li>
+          <li>미선택 탭: 아이콘 아웃라인 + 텍스트 일반</li>
+          <li>674 해상도 기준 탭바 높이 별도 적용</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 13. NOTICE / FOOTER ── -->
+  <div class="section" id="s13">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <span class="section-title">Notice / Footer</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">Notice Pattern</div>
+        <ul>
+          <li>해당 패턴을 기본으로 사용, 경우에 따라 타이틀이나 컬러 배리에이션 사용</li>
+          <li>리스트 간 간격: <strong>8px</strong> 유지</li>
+        </ul>
+        <table style="margin-top:8px">
+          <thead><tr><th>케이스</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>Title 있는 경우</td><td>유의사항 타이틀 + 리스트 (각 항목 우측 번호 배지)</td></tr>
+            <tr><td>List만 있는 경우</td><td>타이틀 없이 리스트만 (각 항목 우측 번호 배지)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Footer 구성</div>
+        <p style="font-size:13px;color:var(--text-05);margin-bottom:8px">현재 콘텐츠가 적어 Full 타입으로 우선 적용</p>
+        <table>
+          <thead><tr><th>버전</th><th>구성 요소</th></tr></thead>
+          <tbody>
+            <tr><td>간단 버전</td><td>PolyBall 로고 + 사업정보 자세히 보기 | 개인정보처리방침 | 폴리볼 이용약관</td></tr>
+            <tr><td>풀 버전</td><td>PolyBall 로고 + 서비스 제공자 (주식회사 헥토이노베이션) + 대표자 / 주소 / 사업자등록번호 / 이메일 + 약관 링크</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 14. SELECTION CONTROLS ── -->
+  <div class="section" id="s14">
+    <div class="section-header">
+      <span class="section-num">14</span>
+      <span class="section-title">Selection Controls</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">Radio Button</div>
+        <ul>
+          <li>상호 배타적인 두 개 이상의 옵션, 그 중 하나만 선택</li>
+          <li><strong>Default로 하나는 무조건 선택</strong>되어 있어야 함</li>
+          <li>상태: <code>unselected</code> / <code>selected</code></li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Checkbox</div>
+        <ul>
+          <li>한 개 또는 다수의 독립적인 옵션, 선택하지 않을 수도 있음</li>
+          <li>하나 또는 여러 개 동시 선택 가능</li>
+          <li>한 개인 경우 기능을 on/off 하는 용도</li>
+          <li>상태: <code>unchecked</code> / <code>checked</code> / <code>disabled</code></li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Toggle-Switch</div>
+        <ul>
+          <li>상호 배타적인 옵션이 있어 각 선택에 따른 효과 전환이 필요한 경우</li>
+          <li>상태: <code>off</code> / <code>on</code> (4단계: 기본off → 중간off → 중간on → 완전on)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 15. PAGINATION ── -->
+  <div class="section" id="s15">
+    <div class="section-header">
+      <span class="section-num">15</span>
+      <span class="section-title">Pagination</span>
+    </div>
+    <div class="section-body">
+      <table>
+        <thead><tr><th>타입</th><th>용도</th></tr></thead>
+        <tbody>
+          <tr><td>Dot</td><td>일반 콘텐츠 슬라이드</td></tr>
+          <tr><td>Line</td><td>프로그레스 바 형태</td></tr>
+          <tr><td>Number (컨텐츠/섹션)</td><td>"1 | N" 형식으로 현재/전체 표시</td></tr>
+          <tr><td>Number (이미지/배너)</td><td>"현재/전체" 형식, 배지 스타일</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── 16. SHEETS ── -->
+  <div class="section" id="s16">
+    <div class="section-header">
+      <span class="section-num">16</span>
+      <span class="section-title">Sheets (Modal / Bottom-Sheet / Popup)</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">Modal / Popup 규칙</div>
+        <ul>
+          <li><code>max-height: 75%</code> 기준으로 <code>1:1 비율</code>로 팝업 사용</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">System Popup 케이스</div>
+        <table>
+          <thead><tr><th>케이스</th><th>CTA</th></tr></thead>
+          <tbody>
+            <tr><td>타 서비스 픽 리뷰 안내</td><td>확인 단일</td></tr>
+            <tr><td>긴급하고 중요한 구분성 강조 알럿</td><td>취소 + 확인</td></tr>
+            <tr><td>서비스 알림 활성화 필요</td><td>취소 + 확인</td></tr>
+            <tr><td>마케팅 정보 수신 동의 알림</td><td>취소 + 확인</td></tr>
+            <tr><td>3초 뒤 사라지는 알림</td><td>없음</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Bottom-Sheet 사이즈</div>
+        <ul>
+          <li><code>max-height: 85%</code></li>
+          <li><code>min-height: 160px</code></li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">바텀 시트 타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>img (Benefit)</td><td>이미지 + 혜택 정보 + CTA</td></tr>
+            <tr><td>List + Check</td><td>체크박스 리스트</td></tr>
+            <tr><td>List + Radio</td><td>라디오 버튼 리스트</td></tr>
+            <tr><td>List + Normal</td><td>일반 리스트</td></tr>
+            <tr><td>Tab + Check/Radio/Normal</td><td>탭 포함 리스트</td></tr>
+            <tr><td>약관</td><td>약관 동의 형태</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 17. STEPPER ── -->
+  <div class="section" id="s17">
+    <div class="section-header">
+      <span class="section-num">17</span>
+      <span class="section-title">Stepper</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">아이콘 선택으로 입력값을 조절하는 요소. 타입: <strong>plus-minus</strong> → − [숫자] + 형태</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">규칙</div>
+        <ul>
+          <li>최솟값에서 − 버튼 비활성화 (예: 1이 최솟값이면 − 비활성)</li>
+          <li>최댓값에서 + 버튼 비활성화 (예: 9999가 최댓값이면 + 비활성)</li>
+          <li>입력 필드 클릭하여 값을 직접 입력 및 변경 가능</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 18. TAB ── -->
+  <div class="section" id="s18">
+    <div class="section-header">
+      <span class="section-num">18</span>
+      <span class="section-title">Tab</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>용도</th><th>규칙</th></tr></thead>
+          <tbody>
+            <tr><td><code>Tabs</code></td><td>섹션 수와 레이블 길이 고정적</td><td>스크린 넓이에 섹션 개수 나누어 탭 넓이 고정</td></tr>
+            <tr><td><code>Tabs-Group</code></td><td>섹션 수와 레이블 길이 유동적</td><td>탭 넓이 변동, 섹션 4개 이상일 때 사용</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">컴포넌트 변형</div>
+        <table>
+          <thead><tr><th>변형</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>Default</td><td>기본 탭</td></tr>
+            <tr><td>Red-dot</td><td>탭에 알림 dot 표시</td></tr>
+            <tr><td>Sub-Title</td><td>탭 아래 서브타이틀 표시</td></tr>
+            <tr><td>AD</td><td>광고 표시 탭</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">규칙</div>
+        <ul>
+          <li>2~3가지 섹션: 기본 Tabs 사용</li>
+          <li>4가지 이상: Tabs-Group 사용</li>
+          <li>중간 영역에서의 Tab 활용은 <strong>bottom-line 활성화</strong> 지향</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 19. TEXT FIELD ── -->
+  <div class="section" id="s19">
+    <div class="section-header">
+      <span class="section-num">19</span>
+      <span class="section-title">Text Field</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">상태</div>
+        <table>
+          <thead><tr><th>상태</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td><code>sealed</code></td><td>기본 비활성</td></tr>
+            <tr><td><code>focused</code></td><td>포커스 (파란 테두리)</td></tr>
+            <tr><td><code>activated</code></td><td>입력 완료</td></tr>
+            <tr><td><code>error</code></td><td>오류 (빨간 테두리 + 에러 메시지)</td></tr>
+            <tr><td><code>focused_error</code></td><td>포커스 + 오류</td></tr>
+            <tr><td><code>disabled</code></td><td>비활성화 (회색)</td></tr>
+            <tr><td><code>read only</code></td><td>읽기 전용 (점선 테두리)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Text Area Field</div>
+        <ul>
+          <li>여러 줄 입력 가능</li>
+          <li>우측 하단 글자 수 카운터 표시</li>
+          <li>배경: white bg (흰 배경) / gray bg (회색 배경) 구분</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 20. TOAST ── -->
+  <div class="section" id="s20">
+    <div class="section-header">
+      <span class="section-num">20</span>
+      <span class="section-title">Toast Notification</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">다음 행동에 지장이 없고 행위한 결과를 알려주는 확인성 알림. 버튼이 없는 경우 <strong>3초 후 자동 사라짐</strong>. 텍스트 40자 이내 지향</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">컴포넌트 구성</div>
+        <table>
+          <thead><tr><th>요소</th><th>옵션</th></tr></thead>
+          <tbody>
+            <tr><td>아이콘</td><td>없음 / 있음</td></tr>
+            <tr><td>텍스트</td><td>단일 라인 / 멀티 라인</td></tr>
+            <tr><td>화살표(&gt;)</td><td>없음 / 있음</td></tr>
+            <tr><td>CTA 버튼</td><td>없음 / Label (기본) / Label (파랑, Primary) / Label (회색, 비활성)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 21. TOOLTIP ── -->
+  <div class="section" id="s21">
+    <div class="section-header">
+      <span class="section-num">21</span>
+      <span class="section-title">Tooltip</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">두줄 지양, 한 줄만 사용. 띄어쓰기 포함 최대 <strong>5글자 이상 지양</strong>. 컬러 커스텀 가능</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">위치 타입 / 스타일</div>
+        <ul>
+          <li>위치: <code>left</code> / <code>center</code> / <code>right</code></li>
+          <li>배경: 파랑/보라 계열 (커스텀 가능)</li>
+          <li>텍스트: 흰색 | 꼬리(tail): 하단 방향 기본</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 22. SHARE ── -->
+  <div class="section" id="s22">
+    <div class="section-header">
+      <span class="section-num">22</span>
+      <span class="section-title">Share</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">Thumbnail</div>
+        <ul>
+          <li>파일 포맷: <strong>SVG 형식</strong>으로 추출하여 적용</li>
+          <li>폴리볼 로고 (파란 배경)</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Custom 공유 시트</div>
+        <ul>
+          <li>헤더: "공유하기" + X 버튼</li>
+          <li>아이콘 목록: 카카오톡, 링크복사 (현재 2가지)</li>
+          <li>비활성 상태도 제공 (회색 처리)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 23. ANNOTATE ── -->
+  <div class="section" id="s23">
+    <div class="section-header">
+      <span class="section-num">23</span>
+      <span class="section-title">Annotate (주석 색상 기준)</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">피그마 작업 시 화면 구분을 위한 레이어 컬러 코딩</div>
+      <table style="margin-top:12px">
+        <thead><tr><th>구분</th><th>색상</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td>APP</td><td>진한 초록</td><td>앱 화면</td></tr>
+          <tr><td>WEB</td><td>진한 파랑</td><td>웹 화면</td></tr>
+          <tr><td>AS-IS</td><td>회색</td><td>현재 상태</td></tr>
+          <tr><td>TO-BE</td><td>청록(Teal)</td><td>개선/목표 상태</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── 24. GRID ── -->
+  <div class="section" id="s24">
+    <div class="section-header">
+      <span class="section-num">24</span>
+      <span class="section-title">Grid</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">기본 규칙</div>
+        <ul>
+          <li>좌우 마진: <strong>기본 16px</strong></li>
+          <li>태블릿: 좌우 마진 16px</li>
+          <li>이미지는 좌우 여백 없이 <strong>풀 사이즈</strong> 사용 가능</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">디바이스별 기준</div>
+        <table>
+          <thead><tr><th>디바이스</th><th>기준 사이즈</th><th>최소 해상도</th></tr></thead>
+          <tbody>
+            <tr><td>iOS</td><td><strong>375×812pt</strong></td><td>320×568pt</td></tr>
+            <tr><td>AOS</td><td><strong>360×800dp</strong></td><td>320×872dp</td></tr>
+            <tr><td>Tablet</td><td><strong>768px</strong></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Breakpoint</div>
+        <ul><li>Tablet 기준: <strong>674~1440px</strong></li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 25. SPACING ── -->
+  <div class="section" id="s25">
+    <div class="section-header">
+      <span class="section-num">25</span>
+      <span class="section-title">Spacing</span>
+    </div>
+    <div class="section-body">
+      <div class="spacing-row"><div class="spacing-token">spacing-02</div><div class="spacing-bar" style="width:2px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">2px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-04</div><div class="spacing-bar" style="width:4px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">4px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-08</div><div class="spacing-bar" style="width:8px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">8px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-12</div><div class="spacing-bar" style="width:12px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">12px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-16</div><div class="spacing-bar" style="width:16px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">16px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-20</div><div class="spacing-bar" style="width:20px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">20px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-24</div><div class="spacing-bar" style="width:24px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">24px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-32</div><div class="spacing-bar" style="width:32px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">32px</span></div>
+      <div class="spacing-row"><div class="spacing-token">spacing-40</div><div class="spacing-bar" style="width:40px"></div><span style="font-size:12px;color:var(--text-05);font-family:'DM Mono',monospace">40px</span></div>
+    </div>
+  </div>
+
+  <!-- ── 26. RADIUS ── -->
+  <div class="section" id="s26">
+    <div class="section-header">
+      <span class="section-num">26</span>
+      <span class="section-title">Radius</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">Radius는 4단위로 적용, 상황에 맞춰 유연하게 사용. 등록된 Token 값 준수</div>
+      <div class="radius-grid" style="margin-top:16px">
+        <div class="radius-box" style="border-radius:4px"><span>4</span><span style="font-size:9px;color:var(--text-05)">배지</span></div>
+        <div class="radius-box" style="border-radius:8px"><span>8</span><span style="font-size:9px;color:var(--text-05)">소버튼</span></div>
+        <div class="radius-box" style="border-radius:12px"><span>12</span><span style="font-size:9px;color:var(--text-05)">중간</span></div>
+        <div class="radius-box" style="border-radius:16px"><span>16</span><span style="font-size:9px;color:var(--text-05)">카드</span></div>
+        <div class="radius-box" style="border-radius:20px"><span>20</span><span style="font-size:9px;color:var(--text-05)">카드</span></div>
+        <div class="radius-box" style="border-radius:24px"><span>24</span><span style="font-size:9px;color:var(--text-05)">Sheet</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 27. COLOR PALETTE ── -->
+  <div class="section" id="s27">
+    <div class="section-header">
+      <span class="section-num">27</span>
+      <span class="section-title">Color Palette (전체 팔레트)</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">Black & White</div>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#ffffff;border-bottom:1px solid var(--line-03)"></div>
+            <div class="swatch-info"><div class="swatch-name">White (0)</div><div class="swatch-hex">#ffffff</div></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#000000"></div>
+            <div class="swatch-info"><div class="swatch-name">Black (100)</div><div class="swatch-hex">#000000</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Neutral (회색 스케일)</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#f7f7f7;border:1px solid var(--line-03)"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">05</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#efefef;border:1px solid var(--line-03)"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">10</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#e1e1e1;border:1px solid var(--line-03)"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">20</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#c8c8c8"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">30</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#888888"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">40</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#707070"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">50</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#606060"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">60</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#4f4f4f"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">70</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#454545"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">80</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#2b2b2b"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">90</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:40px;height:40px;border-radius:6px;background:#101015"></div>
+            <div style="font-size:10px;color:var(--text-05);font-family:'DM Mono',monospace;margin-top:2px">95</div>
+          </div>
+        </div>
+      </div>
+      <div class="sub">
+        <div class="sub-title">주요 색상 규칙</div>
+        <ul>
+          <li>가이드 외에 컬러를 추가하여 예외 케이스를 만드는 것을 <strong>지양</strong></li>
+          <li>Aqua-20 = Polyball MINT (<code>#09ffee</code>), Blue-60 = Polyball BLUE (<code>#1f30e9</code>)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 28. COLOR SEMANTIC ── -->
+  <div class="section" id="s28">
+    <div class="section-header">
+      <span class="section-num">28</span>
+      <span class="section-title">Color Semantic</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">배경 (background)</div>
+        <table>
+          <thead><tr><th>Token</th><th>HEX</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>background-01</code></td><td><span class="color-dot" style="background:#ffffff;border:1px solid #e5e5e5"></span><code>#ffffff</code></td><td>기본 밝은 배경</td></tr>
+            <tr><td><code>background-02</code></td><td><span class="color-dot" style="background:#f9f9f9;border:1px solid #e5e5e5"></span><code>#f9f9f9</code></td><td>그레이 배경</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">라인 (line)</div>
+        <table>
+          <thead><tr><th>Token</th><th>HEX</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>line-01</code></td><td><span class="color-dot" style="background:#ffffff;border:1px solid #e5e5e5"></span><code>#ffffff</code></td><td>어두운 배경에서 기본 라인</td></tr>
+            <tr><td><code>line-02</code></td><td><span class="color-dot" style="background:#f9f9f9;border:1px solid #e5e5e5"></span><code>#f9f9f9</code></td><td>밝은 배경에서 기본 라인</td></tr>
+            <tr><td><code>line-03</code></td><td><span class="color-dot" style="background:#e5e5e5"></span><code>#e5e5e5</code></td><td>한 단계 어두운 라인</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">주요 색상 (primary)</div>
+        <table>
+          <thead><tr><th>Token</th><th>HEX</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>primary-01</code></td><td><span class="color-dot" style="background:#1f30e3"></span><code>#1f30e3</code></td><td>강조된 UI 요소에 사용하는 메인 색상</td></tr>
+            <tr><td><code>primary-02</code></td><td><span class="color-dot" style="background:#001432"></span><code>#001432</code></td><td>primary-01보다 더 강조해야 하는 UI</td></tr>
+            <tr><td><code>secondary-01</code></td><td><span class="color-dot" style="background:#09ffee;border:1px solid #e5e5e5"></span><code>#09ffee</code></td><td>primary와 함께 보조 컬러로 강조 영역에 사용</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">상태 (status)</div>
+        <table>
+          <thead><tr><th>Token</th><th>HEX</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>status-positive</code></td><td><span class="color-dot" style="background:#1e5d2a"></span>Green-70</td><td>성공, 완료, 진행 등</td></tr>
+            <tr><td><code>status-danger</code></td><td><span class="color-dot" style="background:#fc0528"></span>Red-60</td><td>오류, 금지, 위험, 삭제</td></tr>
+            <tr><td><code>disabled</code></td><td><span class="color-dot" style="background:#c1c1c5"></span>Neutral-20</td><td>비활성화 상태</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">아이콘 (icon)</div>
+        <table>
+          <thead><tr><th>Token</th><th>HEX</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>icon-01</code></td><td><span class="color-dot" style="background:#ffffff;border:1px solid #e5e5e5"></span><code>#ffffff</code></td><td>어두운 배경 아이콘</td></tr>
+            <tr><td><code>icon-02</code></td><td><span class="color-dot" style="background:#101015"></span><code>#101015</code></td><td>밝은 배경 아이콘</td></tr>
+            <tr><td><code>icon-03</code></td><td><span class="color-dot" style="background:#888888"></span><code>#888888</code></td><td>비강조 아이콘</td></tr>
+            <tr><td><code>icon-04</code></td><td><span class="color-dot" style="background:#b0b0b3"></span><code>#b0b0b3</code></td><td>비강조 아이콘</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">텍스트 (text)</div>
+        <table>
+          <thead><tr><th>Token</th><th>HEX</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>text-01</code></td><td><span class="color-dot" style="background:#ffffff;border:1px solid #e5e5e5"></span><code>#ffffff</code></td><td>어두운 배경 제목·본문</td></tr>
+            <tr><td><code>text-02</code></td><td><span class="color-dot" style="background:#ffffffcc;border:1px solid #e5e5e5"></span><code>rgba(255,255,255,0.8)</code></td><td>어두운 배경 서브·비강조</td></tr>
+            <tr><td><code>text-03</code></td><td><span class="color-dot" style="background:#101015"></span><code>#101015</code></td><td>제목·본문 텍스트</td></tr>
+            <tr><td><code>text-04</code></td><td><span class="color-dot" style="background:#454545"></span><code>#454545</code></td><td>서브 본문·비강조</td></tr>
+            <tr><td><code>text-05</code></td><td><span class="color-dot" style="background:#888888"></span><code>#888888</code></td><td>설명·비활성화</td></tr>
+            <tr><td><code>text-06</code></td><td><span class="color-dot" style="background:#b0b0b3"></span><code>#b0b0b3</code></td><td>큰 텍스트 비활성·placeholder</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Gradient</div>
+        <table>
+          <thead><tr><th>Token</th><th>구성</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><code>gradient-01</code></td><td>Background-01 → Blue-10</td><td>콘텐츠 강조</td></tr>
+            <tr><td><code>skeleton-light</code></td><td>Neutral-5 → Neutral-10</td><td>스켈레톤 UI (라이트)</td></tr>
+            <tr><td><code>skeleton-dark</code></td><td><code>#232323</code> → <code>#1C1C1C</code></td><td>스켈레톤 UI (다크)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 29. TYPOGRAPHY ── -->
+  <div class="section" id="s29">
+    <div class="section-header">
+      <span class="section-num">29</span>
+      <span class="section-title">Typography</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">기본 글꼴: <strong>Pretendard (프리텐다드)</strong> | 웨이트: Regular / Medium / SemiBold / Bold</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">타이포그래피 스케일</div>
+        <table>
+          <thead><tr><th>스타일</th><th>Size</th><th>Line Height</th><th>Letter Spacing</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td>Display 1</td><td>48px</td><td>140%</td><td>-3%</td><td>최고 강조 문구</td></tr>
+            <tr><td>Display 2</td><td>40px</td><td>140%</td><td>-3%</td><td>숫자 강조, 최고 강조 문구</td></tr>
+            <tr><td>Heading 1</td><td>32px</td><td>140%</td><td>-3%</td><td>강조 문구, 섹션 타이틀</td></tr>
+            <tr><td>Heading 2</td><td>24px</td><td>140%</td><td>-3%</td><td>섹션 타이틀, 본문 최고 강조</td></tr>
+            <tr><td>Headline 1</td><td>20px</td><td>140%</td><td>-3%</td><td>페이지 타이틀, 섹션 타이틀</td></tr>
+            <tr><td>Headline 2</td><td>18px</td><td>140%</td><td>-3%</td><td>바텀시트 타이틀</td></tr>
+            <tr><td>Body 1 / Normal</td><td>16px</td><td>140%</td><td>-2%</td><td>탭뷰, 리스트 타이틀, 바디</td></tr>
+            <tr><td>Body 1 / Reading</td><td>16px</td><td>160%</td><td>-2%</td><td>바디 텍스트 (긴 글)</td></tr>
+            <tr><td>Body 2 / Normal</td><td>14px</td><td>140%</td><td>-2%</td><td>바디, 상품명, 브랜드명, 폼 placeholder</td></tr>
+            <tr><td>Body 2 / Reading</td><td>14px</td><td>160%</td><td>-2%</td><td>바디 텍스트 (긴 글)</td></tr>
+            <tr><td>Body 3 / Normal</td><td>13px</td><td>140%</td><td>-2%</td><td>보조 텍스트, xSmall 버튼</td></tr>
+            <tr><td>Caption 1 / Normal</td><td>12px</td><td>140%</td><td>-2%</td><td>태그, 분류, 숫자, 안내</td></tr>
+            <tr><td>Caption 1 / Reading</td><td>12px</td><td>160%</td><td>-2%</td><td>캡션 긴 글</td></tr>
+            <tr><td>Caption 2 / Normal</td><td>11px</td><td>140%</td><td>-2%</td><td>주요도 낮은 텍스트, 태그</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="type-preview">
+        <div class="type-row"><div class="type-label">Display 1 · 48</div><div class="type-sample" style="font-size:48px;font-weight:700;letter-spacing:-0.03em">직관은 승부예측으로</div></div>
+        <div class="type-row"><div class="type-label">Heading 1 · 32</div><div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-0.03em">오늘의 승부예측</div></div>
+        <div class="type-row"><div class="type-label">Heading 2 · 24</div><div class="type-sample" style="font-size:24px;font-weight:700;letter-spacing:-0.03em">응모하기</div></div>
+        <div class="type-row"><div class="type-label">Headline 1 · 20</div><div class="type-sample" style="font-size:20px;font-weight:600;letter-spacing:-0.03em">당첨 결과 발표</div></div>
+        <div class="type-row"><div class="type-label">Body 1 · 16</div><div class="type-sample" style="font-size:16px;letter-spacing:-0.02em">매일 승부 예측하고 응모권을 더 모아보세요.</div></div>
+        <div class="type-row"><div class="type-label">Body 2 · 14</div><div class="type-sample" style="font-size:14px;letter-spacing:-0.02em">예측에 성공하면 응모권을 받아요!</div></div>
+        <div class="type-row"><div class="type-label">Caption 1 · 12</div><div class="type-sample" style="font-size:12px;letter-spacing:-0.02em;color:var(--text-05)">1,234명 참여 · 07:22:32 남음</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 30. ICON GRIDS ── -->
+  <div class="section" id="s30">
+    <div class="section-header">
+      <span class="section-num">30</span>
+      <span class="section-title">Icon Grids</span>
+    </div>
+    <div class="section-body">
+      <div class="sub">
+        <div class="sub-title">기본 규칙</div>
+        <ul>
+          <li>아이콘은 <strong>24×24 사이즈</strong> 기준</li>
+          <li>라인 아이콘의 굵기는 <strong>2로 제작</strong></li>
+          <li>모든 아이콘이 시각적으로 일관된 비율 유지 → Keyline Shapes 참고</li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Base 스펙</div>
+        <table>
+          <thead><tr><th>항목</th><th>값</th></tr></thead>
+          <tbody>
+            <tr><td>Icon Size</td><td><code>24</code></td></tr>
+            <tr><td>Line</td><td><code>2</code></td></tr>
+            <tr><td>Radius</td><td><code>2</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Naming Convention</div>
+        <pre><code>[Asset type]-[Asset name]-[Direction]-[Status]-[Color]
+
+Asset type: ico / img / logo / bg
+Asset name: chevron / arrow / xmark 등
+Direction: up / down / left / right
+Status: hover / active / disabled / selected
+Color: white / gray / primary
+
+모두 소문자, 단어와 단어 사이 하이픈(-) 사용
+형태보다 기능이 명확한 경우 기능의 이름 사용</code></pre>
+      </div>
+      <div class="sub">
+        <div class="sub-title">Touch Target</div>
+        <ul><li>독립적으로 버튼처럼 사용되는 아이콘의 경우 터치 영역 최소 사이즈: <strong>48×48px</strong></li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BRAND COLOR ── -->
+  <div class="section" id="s31">
+    <div class="section-header">
+      <span class="section-num">31</span>
+      <span class="section-title">브랜드 컬러</span>
+    </div>
+    <div class="section-body">
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1F30E9"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Polyball BLUE</div>
+            <div class="swatch-hex">#1F30E9</div>
+            <div style="font-size:10px;color:var(--text-05);margin-top:2px">PANTONE 2736 C</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#ffffff;border-bottom:1px solid var(--line-03)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">WHITE</div>
+            <div class="swatch-hex">#ffffff</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#00143F"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Polyball NAVY</div>
+            <div class="swatch-hex">#00143F</div>
+            <div style="font-size:10px;color:var(--text-05);margin-top:2px">PANTONE 2768 C</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#09FFEE;border-bottom:1px solid var(--line-03)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Polyball MINT</div>
+            <div class="swatch-hex">#09FFEE</div>
+            <div style="font-size:10px;color:var(--text-05);margin-top:2px">PANTONE 3242 C</div>
+          </div>
+        </div>
+      </div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">로고 배경별 사용 규칙</div>
+        <table>
+          <thead><tr><th>배경</th><th>로고 컬러</th></tr></thead>
+          <tbody>
+            <tr><td>Polyball BLUE 배경</td><td>흰색(WHITE) 로고</td></tr>
+            <tr><td>Polyball NAVY 배경</td><td>Polyball BLUE 로고</td></tr>
+            <tr><td>흰색(WHITE) 배경</td><td>Polyball BLUE 로고</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BRAND LOGO ── -->
+  <div class="section" id="s32">
+    <div class="section-header">
+      <span class="section-num">32</span>
+      <span class="section-title">브랜드 로고</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">Poly(다양함) + Ball(스포츠 경기)를 결합한 형태. 특정 종목에 한정되지 않은 다양한 스포츠 콘텐츠로 확장 가능한 서비스임을 의미</div>
+      <div class="sub" style="margin-top:16px">
+        <div class="sub-title">슬로건</div>
+        <pre><code>직관은 승부예측으로
+PolyBall.</code></pre>
+      </div>
+      <div class="sub">
+        <div class="sub-title">로고 타입</div>
+        <table>
+          <thead><tr><th>타입</th><th>설명</th><th>사용 방식</th></tr></thead>
+          <tbody>
+            <tr><td>Primary logo (영문단독)</td><td>"PolyBall." 영문만</td><td>기본 사용</td></tr>
+            <tr><td>Primary logo (국문혼용)</td><td>"직관은 승부예측으로" + "PolyBall."</td><td>서비스 타이틀과 혼합 시, <strong>상하 배치</strong> 필요</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sub">
+        <div class="sub-title">App Icon Clearspace</div>
+        <ul>
+          <li>클리어스페이스: 아이콘을 다른 시각적 요소와 분리하여 가독성과 영향력 보장</li>
+          <li>아이콘의 빈 공간은 <strong>50% 너비</strong> 아이콘에 의해 결정</li>
+          <li>앱 아이콘의 경우, 아이콘 너비는 <strong>정사각형 전체 너비의 60%</strong></li>
+        </ul>
+      </div>
+      <div class="sub">
+        <div class="sub-title">브랜드 이미지 가이드</div>
+        <ul>
+          <li>스포츠 사진 위에 파란 오버레이(Navy 계열) 적용</li>
+          <li>로고 + 슬로건 흰색 또는 파란색으로 오버레이</li>
+          <li>야구, 축구, 농구, 테니스 등 다양한 스포츠 이미지 활용</li>
+          <li>이미지 톤: <strong>어둡고 역동적인 스포츠 무드</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN PATTERNS ── -->
+  <div class="section" id="sp">
+    <div class="section-header screen-section-header">
+      <span class="section-num">33</span>
+      <span class="section-title">실제 서비스 화면 패턴 (Design Brief 참조용)</span>
+    </div>
+    <div class="section-body">
+      <div class="notice">기획자가 Design Brief 작성 시 실제 구현된 화면을 참조하는 섹션</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px">
+
+        <div class="screen-card">
+          <h4>📱 화면 1 — 스플래시</h4>
+          <ul>
+            <li>전체 배경: Polyball BLUE (<code>#1F30E9</code>) 풀스크린</li>
+            <li>중앙: "직관은 승부예측으로" (Caption, 흰색) + "PolyBall." (Display 1, Bold, 흰색)</li>
+            <li>컴포넌트: 없음 (풀 화면 브랜드 로딩)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 2 — 온보딩 서비스 소개</h4>
+          <ul>
+            <li>GNB: PolyBall 로고(좌) + "로그인하기" 텍스트 링크(우)</li>
+            <li>헤드라인: "직관 티켓, 폴리볼에서 응모해요" (Heading 1, Bold)</li>
+            <li>하단 CTA: "보고 싶은 팀 경기 고르기" (Primary 버튼, 풀 width, radius-24)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 3 — 온보딩 팀 선택</h4>
+          <ul>
+            <li><strong>2열 그리드</strong> 팀 카드: 팀명(상단) + 마스코트(하단) + 팀컬러 배경</li>
+            <li>선택됨: 팀 컬러 배경 + 진하게</li>
+            <li>미선택: 회색 배경(<code>background-02</code>)</li>
+            <li>하단 CTA: "선택 완료" (Primary 버튼, 풀 width)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 4 — 온보딩 경기 선택</h4>
+          <ul>
+            <li>경기 카드 배경: <code>background-02</code> + radius-16</li>
+            <li>선택됨: 파란 계열 배경 + 파란 테두리</li>
+            <li>하단 CTA: "응모하기" (Primary 버튼, 풀 width)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 5 — 로그인 바텀 시트</h4>
+          <ul>
+            <li>배경 딤: 60% 다크 오버레이</li>
+            <li>바텀 시트 (radius-24, 흰 배경)</li>
+            <li>카카오 버튼: 노란 배경 (<code>#FEE500</code>) + "카카오로 시작하기"</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 6 — 약관 동의 바텀 시트</h4>
+          <ul>
+            <li>바텀 시트 (radius-24) + X 버튼 (우상단)</li>
+            <li>약관 항목 (아코디언): 필수/선택 체크박스</li>
+            <li>상태 변화: 미선택(회색) → 필수선택(파랑) → 전체선택(버튼 활성)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 7 — 온보딩 완료</h4>
+          <ul>
+            <li>체크 아이콘 (파란 원 + 흰 체크)</li>
+            <li>툴팁: "예측에 성공하면 응모권을 받아요!🔥" (Mint 배경)</li>
+            <li>CTA: "승부 예측하러 가기 >" (Primary 버튼 + chevron-right)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 8 — 픽 메인 (승부예측)</h4>
+          <ul>
+            <li>GNB 라이트: PolyBall 로고 + 🎫 응모권 배지 + 🔔 알림</li>
+            <li>예측 카드: Navy~Blue 그라디언트 배경, 프로그레스 바</li>
+            <li>하단: 참여수·시간·응모권 정보 | Navigation Bottom</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 9 — 응모 메인</h4>
+          <ul>
+            <li>주간 캘린더 + 카운트다운</li>
+            <li>경쟁 강도: 치열⚡(빨강) / 인기🔥(오렌지) / 여유🌿(초록)</li>
+            <li>CTA: "응모하기" / "추가 응모하기" (아웃라인 버튼)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 10 — 응모 바텀 시트</h4>
+          <ul>
+            <li>광고 영역 (상단 검정, 풀 width)</li>
+            <li>스테퍼: "사용 수량" + [−] 숫자 [+]</li>
+            <li>CTA: "응모하기" (Primary 버튼, 풀 width)</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 11 — 응모 캘린더</h4>
+          <ul>
+            <li>서브 GNB: ← + "응모 캘린더"</li>
+            <li>월 캘린더 + 팀 필터 칩 (가로 스크롤)</li>
+            <li>MY팀 뱃지 있는 팀은 별도 표시</li>
+          </ul>
+        </div>
+
+        <div class="screen-card">
+          <h4>📱 화면 12 — 마이</h4>
+          <ul>
+            <li>GNB 다크(네이비): 흰 로고 + 🔔 알림 + ⚙️ 설정</li>
+            <li>프로필 카드: 마스코트 아바타 + 닉네임 + [MY팀] 뱃지</li>
+            <li>내 지갑 / 내 활동 / 공지사항 섹션</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- KEY PATTERNS TABLE -->
+      <div class="sub" style="margin-top:24px">
+        <div class="sub-title">버튼 패턴</div>
+        <table>
+          <thead><tr><th>타입</th><th>배경</th><th>텍스트</th><th>Radius</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td>Primary</td><td><span class="color-dot" style="background:#1F30E9"></span><code>#1F30E9</code></td><td>흰색, Bold</td><td>24</td><td>주요 CTA</td></tr>
+            <tr><td>카카오</td><td><span class="color-dot" style="background:#FEE500;border:1px solid #e5e5e5"></span><code>#FEE500</code></td><td>검정, Bold</td><td>24</td><td>카카오 로그인</td></tr>
+            <tr><td>Apple</td><td><span class="color-dot" style="background:#000000"></span><code>#000000</code></td><td>흰색, Bold</td><td>24</td><td>애플 로그인</td></tr>
+            <tr><td>아웃라인</td><td>흰색/투명</td><td>text-03, Medium</td><td>12</td><td>응모하기, 추가응모</td></tr>
+            <tr><td>Disabled</td><td><span class="color-dot" style="background:#c1c1c5"></span>Neutral-20</td><td>text-05</td><td>24</td><td>비활성 CTA</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sub">
+        <div class="sub-title">GNB 패턴</div>
+        <table>
+          <thead><tr><th>GNB 타입</th><th>배경</th><th>로고</th><th>우측 아이콘</th><th>사용 화면</th></tr></thead>
+          <tbody>
+            <tr><td>메인 라이트</td><td>흰색</td><td>파란 로고</td><td>응모권 배지 + 알림</td><td>픽 메인, 응모 메인</td></tr>
+            <tr><td>메인 다크</td><td><code>#00143F</code></td><td>흰 로고</td><td>알림 + 설정</td><td>마이</td></tr>
+            <tr><td>서브 라이트</td><td>흰색</td><td>—</td><td>페이지 타이틀 (중앙)</td><td>캘린더, 설정 등</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sub">
+        <div class="sub-title">뱃지/레이블 패턴</div>
+        <table>
+          <thead><tr><th>뱃지</th><th>색상</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td>[H] 홈팀</td><td>회색 배경</td><td>홈팀 표시</td></tr>
+            <tr><td>[MY팀]</td><td>진한 배경, 흰 텍스트</td><td>내 응원팀</td></tr>
+            <tr><td>응모 진행 중</td><td>빨간 dot + 텍스트</td><td>응모 상태</td></tr>
+            <tr><td>치열⚡</td><td><span class="color-dot" style="background:#fc0528"></span>빨강</td><td>경쟁 높음</td></tr>
+            <tr><td>인기🔥</td><td><span class="color-dot" style="background:#ff7a00"></span>오렌지</td><td>경쟁 중간</td></tr>
+            <tr><td>여유🌿</td><td><span class="color-dot" style="background:#1e5d2a"></span>초록</td><td>경쟁 낮음</td></tr>
+            <tr><td>🏆 승부예측</td><td><span class="color-dot" style="background:#1F30E9"></span>primary-01</td><td>메인 마켓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WARNING SECTION ── -->
+  <div class="warning-section">
+    <h3>⚠️ 추가 수집 예정 섹션</h3>
+    <p style="font-size:13px;color:var(--text-04);margin-bottom:8px">아래 섹션은 이미지 추가 수신 후 업데이트 예정:</p>
+    <ul>
+      <li>Typography (타이포그래피) ← <strong>최우선 필요</strong></li>
+      <li>Button ← <strong>최우선 필요</strong></li>
+      <li>Progress Bar</li>
+      <li>Card 컴포넌트</li>
+      <li>기타</li>
+    </ul>
+  </div>
+
+</main>
+
+<!-- SIDEBAR ACTIVE HIGHLIGHT SCRIPT -->
+<script>
+  const links = document.querySelectorAll('.sidebar a');
+  const sections = document.querySelectorAll('[id]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
